@@ -6,7 +6,8 @@ const FolderList = ({ allFolders }) => {
 	console.log(allFolders)
 	return (
 		<nav>
-			{allFolders.map(folder => <Link key={folder.id} to={folder.id}><Folder data={folder} /></Link>)}
+			{allFolders.map(folder => <Link to={folder.id} ><Folder data={folder} /></Link>)}
+		<button type='button'>Add Folder</button>
 		</nav>
 	);
 };

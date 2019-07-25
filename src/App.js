@@ -3,11 +3,19 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import FolderList from './components/FolderList/FolderList';
 import NoteList from './components/NoteList/NoteList';
+import NotePage from './components/NotePage/NotePage';
 import { dummyFolders, dummyNotes } from './dummy-store';
 
 const App = ({ starterFolders, starterNotes }) => {
 	const [allFolders, setAllFolders] = useState(dummyFolders);
 	const [allNotes, setAllNotes] = useState(dummyNotes);
+
+	const getNotePage = (allNotes, selectedNoteId) => {
+		let noteForPage = allNotes.filter(
+			note => note.id === selectedNoteId
+		);
+		return noteForPage[0];
+	};
 
 	return (
 		<Router>
@@ -21,24 +29,32 @@ const App = ({ starterFolders, starterNotes }) => {
 					exact
 					render={() => (
 						<>
+							<NoteList allNotes={allNotes} />
+						</>
+					)}
+				/>
+				<Route
+					path="/folder/:folderId"
+					exact
+					render={({ match }) => (
+						<>
 							<NoteList
 								allNotes={allNotes}
-								folderFilter={null}
+								folderFilter={match.params.folderId}
 							/>
 						</>
 					)}
 				/>
 				<Route
-					path="/folder/:id"
+					path="/folder/:folderId/note/:noteId"
 					exact
 					render={({ match }) => (
-						<>
-							{' '}
-							<NoteList
-								allNotes={allNotes}
-								folderFilter={match.params.id}
-							/>
-						</>
+						<NotePage
+							data={getNotePage(
+								allNotes,
+								match.params.noteId
+							)}
+						/>
 					)}
 				/>
 			</div>

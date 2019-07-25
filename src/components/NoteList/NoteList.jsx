@@ -1,13 +1,13 @@
 import React from 'react';
 import Note from '../Note/Note';
 
-const NoteList = ({ allNotes, folderFilter }) => {
+const NoteList = ({ allNotes, folderFilter, noteFilter }) => {
 	const filterNotes = (allNotes, filter) => {
-		if (filter === null) {
+		if (filter === null || filter === undefined) {
 			return allNotes;
 		} else {
 			let displayNotes = allNotes.filter(folderNotes => {
-				return folderNotes.folderId == filter;
+				return folderNotes.folderId === filter;
 			});
 			return displayNotes;
 		}

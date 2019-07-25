@@ -3,11 +3,10 @@ import Folder from '../Folder/Folder';
 import { Link } from 'react-router-dom';
 
 const FolderList = ({ allFolders }) => {
-	console.log(allFolders);
 	return (
 		<nav>
 			{allFolders.map(folder => (
-				<Link to={`/folder/${folder.id}`}>
+				<Link key={folder.id} to={`/folder/${folder.id}`}>
 					<Folder data={folder} />
 				</Link>
 			))}

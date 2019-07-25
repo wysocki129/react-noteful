@@ -1,10 +1,12 @@
 import React from 'react';
 
-const Note = () => {
+
+const Note = ({data}) => {
 	return (
-		<div className="Note">
-			<h3>Note Title</h3>
-			<p>Date Modified</p>
+		<div className="Note" key={data.id} id={data.id}>
+			<h3> {data.name} </h3>
+			<p>{data.modified}</p>
+			<p>{data.content}</p>
 			<button
 				type="button"
 				onClick={() => console.log('Note Deleted')}

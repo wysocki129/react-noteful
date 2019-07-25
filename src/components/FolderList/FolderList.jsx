@@ -1,21 +1,12 @@
 import React from 'react';
-import Folder from './Folder/Folder';
+import Folder from '../Folder/Folder';
+import { Link } from 'react-router-dom'
 
-const FolderList = () => {
+const FolderList = ({ allFolders }) => {
+	console.log(allFolders)
 	return (
 		<nav>
-			<ul>
-				<Folder />
-				<Folder />
-				<Folder />
-				<Folder />
-				<button
-					type="button"
-					onClick={() => console.log('Added New Folder')}
-				>
-					Add Folder
-				</button>
-			</ul>
+			{allFolders.map(folder => <Link key={folder.id} to={folder.id}><Folder data={folder} /></Link>)}
 		</nav>
 	);
 };

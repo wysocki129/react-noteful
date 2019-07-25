@@ -1,22 +1,13 @@
 import React from 'react';
-import Note from './Note/Note';
+import Note from '../Note/Note';
 
-const NoteList = () => {
+const NoteList = ({allNotes, setAllNotes}) => {
+	
+
 	return (
-		<nav>
-			<ul>
-				<Note />
-				<Note />
-				<Note />
-				<Note />
-				<button
-					type="button"
-					onClick={() => console.log('Added New Note')}
-				>
-					Add Note
-				</button>
-			</ul>
-		</nav>
+		<ul>
+			{allNotes.map((note, index) => <li key={note.id}><Note data={note}/></li>)}
+		</ul>
 	);
 };
 

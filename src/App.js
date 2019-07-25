@@ -10,26 +10,36 @@ const App = ({ starterFolders, starterNotes }) => {
 	const [allFolders, setAllFolders] = useState(dummyFolders);
 	const [allNotes, setAllNotes] = useState(dummyNotes);
 
-	const getNotePage = (allNotes, selectedNoteId) => {
+	const getNotePage = (allNotes, allFolders, selectedNoteId) => {
 		let noteForPage = allNotes.filter(
 			note => note.id === selectedNoteId
 		);
+		let noteFolderName = allFolders.filter(
+			folder => folder.id == noteForPage[0].folderId
+		);
+		noteForPage[0].folderName = noteFolderName[0].name;
 		return noteForPage[0];
 	};
 
 	return (
 		<Router>
 			<div className="App">
-				<Link to="/">
-					<h1>Noteful</h1>
-				</Link>
-				<FolderList allFolders={allFolders} />
+				<header className="App__header">
+					<Link to="/">
+						<h1>Noteful</h1>
+					</Link>
+				</header>
 				<Route
 					path="/"
 					exact
 					render={() => (
 						<>
-							<NoteList allNotes={allNotes} />
+							<nav className="App__nav">
+								<FolderList allFolders={allFolders} />
+							</nav>
+							<main className="App__main">
+								<NoteList allNotes={allNotes} />
+							</main>
 						</>
 					)}
 				/>
@@ -38,10 +48,15 @@ const App = ({ starterFolders, starterNotes }) => {
 					exact
 					render={({ match }) => (
 						<>
-							<NoteList
-								allNotes={allNotes}
-								folderFilter={match.params.folderId}
-							/>
+							<nav className="App__nav">
+								<FolderList allFolders={allFolders} />
+							</nav>
+							<main className="App__main">
+								<NoteList
+									allNotes={allNotes}
+									folderFilter={match.params.folderId}
+								/>
+							</main>
 						</>
 					)}
 				/>
@@ -49,12 +64,15 @@ const App = ({ starterFolders, starterNotes }) => {
 					path="/folder/:folderId/note/:noteId"
 					exact
 					render={({ match }) => (
-						<NotePage
-							data={getNotePage(
-								allNotes,
-								match.params.noteId
-							)}
-						/>
+						<>
+							<NotePage
+								data={getNotePage(
+									allNotes,
+									allFolders,
+									match.params.noteId
+								)}
+							/>
+						</>
 					)}
 				/>
 			</div>

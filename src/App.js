@@ -5,26 +5,45 @@ import FolderList from './components/FolderList/FolderList';
 import NoteList from './components/NoteList/NoteList';
 import { dummyFolders, dummyNotes } from './dummy-store';
 
-
-
-
-	
-
 const App = ({ starterFolders, starterNotes }) => {
-	
-	const [ allFolders, setAllFolders ] = useState(dummyFolders)
-	const [ allNotes, setAllNotes ] = useState(dummyNotes)
-	
+	const [allFolders, setAllFolders] = useState(dummyFolders);
+	const [allNotes, setAllNotes] = useState(dummyNotes);
+
 	return (
 		<Router>
 			<div className="App">
-				<Link to='/'><h1>Noteful</h1></Link>
-				<Route path='/' render={() => (<><FolderList allFolders={allFolders} /> <NoteList allNotes={allNotes} /></>)} />
-				
+				<Link to="/">
+					<h1>Noteful</h1>
+				</Link>
+				<FolderList allFolders={allFolders} />
+				<Route
+					path="/"
+					exact
+					render={() => (
+						<>
+							<NoteList
+								allNotes={allNotes}
+								folderFilter={null}
+							/>
+						</>
+					)}
+				/>
+				<Route
+					path="/folder/:id"
+					exact
+					render={({ match }) => (
+						<>
+							{' '}
+							<NoteList
+								allNotes={allNotes}
+								folderFilter={match.params.id}
+							/>
+						</>
+					)}
+				/>
 			</div>
 		</Router>
-	)
-}
-
+	);
+};
 
 export default App;

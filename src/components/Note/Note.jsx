@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-
-const Note = ({data}) => {
+const Note = ({ data }) => {
 	return (
 		<div className="Note" key={data.id} id={data.id}>
-			<h3> {data.name} </h3>
+			<Link to={`/folder/${data.folderId}/note/${data.id}`}>
+				<h3> {data.name} </h3>
+			</Link>
 			<p>{data.modified}</p>
 			<p>{data.content}</p>
 			<button

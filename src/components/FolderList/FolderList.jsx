@@ -1,17 +1,44 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Folder from '../Folder/Folder';
 import { NavLink } from 'react-router-dom';
 
+import useFoldersStore from '../../useFoldersStore';
+
 const FolderList = ({ allFolders }) => {
+	const {
+		fetchFoldersFromDb,
+		getFolderName,
+		getFolderId,
+		addNewFolder,
+		deleteSelectedFolder
+	} = useFoldersStore();
+
 	return (
 		<>
-			{allFolders.map(folder => (
-				<NavLink key={folder.id} to={`/folder/${folder.id}`}>
-					<Folder data={folder} />
-				</NavLink>
-			))}
-			<button type="button">Add Folder</button>
+			<button type="button" onClick={() => fetchFoldersFromDb()}>
+				Fetch
+			</button>
+			<button type="button" onClick={() => console.log(getFolderName(0))}>
+				Get Folder Name
+			</button>
+			<button type="button" onClick={() => console.log(getFolderId(0))}>
+				Get Folder Id
+			</button>
+			<button type="button" onClick={() => console.log(addNewFolder)}>
+				Add New Folder
+			</button>
+			<button type="button" onClick={() => console.log(deleteSelectedFolder)}>
+				Delete Selected Folder
+			</button>
 		</>
+		// <>
+		// 	{allFolders.map(folder => (
+		// 		<NavLink key={folder.id} to={`/folder/${folder.id}`}>
+		// 			<Folder data={folder} />
+		// 		</NavLink>
+		// 	))}
+		// 	<button type="button">Add Folder</button>
+		// </>
 	);
 };
 

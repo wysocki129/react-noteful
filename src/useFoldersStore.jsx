@@ -50,14 +50,13 @@ const useFoldersStore = () => {
 		const folderId = getFolderId(folderIndex);
 		const deleteURL = dbURL + '/' + folderId;
 		let newFoldersArray = foldersStore.folders.filter(({ id }) => {
-			return id !== getFolderId(folderIndex);
+			return id !== folderId;
 		});
-
-		setFoldersStore(foldersStore => ({ ...foldersStore, folders: newFoldersArray }));
 
 		fetch(deleteURL, { method: 'DELETE' })
 			.then(response => response.json())
 			.then(console.log('Folder Deleted'))
+			.then(setFoldersStore(foldersStore => ({ ...foldersStore, folders: newFoldersArray })))
 			.catch(e => console.log(e));
 	}
 

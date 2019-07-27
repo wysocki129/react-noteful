@@ -10,7 +10,8 @@ const FolderList = ({ allFolders }) => {
 		getFolderName,
 		getFolderId,
 		addNewFolder,
-		deleteSelectedFolder
+		deleteSelectedFolder,
+		getFoldersStore
 	} = useFoldersStore();
 
 	return (
@@ -24,11 +25,14 @@ const FolderList = ({ allFolders }) => {
 			<button type="button" onClick={() => console.log(getFolderId(0))}>
 				Get Folder Id
 			</button>
-			<button type="button" onClick={() => console.log(addNewFolder)}>
+			<button type="button" onClick={() => addNewFolder()}>
 				Add New Folder
 			</button>
-			<button type="button" onClick={() => console.log(deleteSelectedFolder)}>
+			<button type="button" onClick={() => console.log(deleteSelectedFolder(0))}>
 				Delete Selected Folder
+			</button>
+			<button type="button" onClick={() => console.log(getFoldersStore())}>
+				Log foldersStore
 			</button>
 		</>
 		// <>

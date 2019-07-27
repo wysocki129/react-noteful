@@ -1,35 +1,35 @@
 import { useContext } from 'react';
-import { FoldersStoreContext } from './FoldersStore';
+import { FoldersStateContext } from './FoldersState';
 
-const useFoldersStore = () => {
-	const [foldersStore, setFoldersStore] = useContext(FoldersStoreContext);
+const useFoldersState = () => {
+	const [foldersState, setFoldersState] = useContext(FoldersStateContext);
 	const dbURL = 'http://localhost:9090/folders';
 
 	function fetchFoldersFromDb() {
 		fetch(dbURL)
 			.then(res => res.json())
 			.then(allFolders =>
-				setFoldersStore(foldersStore => ({ ...foldersStore, folders: allFolders }))
+				setFoldersState(foldersState => ({ ...foldersState, folders: allFolders }))
 			)
 			.then(() => console.log('Folder Fetch Complete'))
 			.catch(e => console.log(e));
 	}
 
-	function getFoldersStore() {
-		return foldersStore;
+	function getFoldersState() {
+		return foldersState;
 	}
 
 	function getFolderName(folderIndex) {
-		return foldersStore.folders[folderIndex].name;
+		return foldersState.folders[folderIndex].name;
 	}
 
 	function getFolderId(folderIndex) {
-		return foldersStore.folders[folderIndex].id;
+		return foldersState.folders[folderIndex].id;
 	}
 
 	function addNewFolder() {
 		const newFolder = { name: 'Name_String' };
-		let newJsonFolder = foldersStore.folders;
+		let newJsonFolder = foldersState.folders;
 		const options = {
 			method: 'POST',
 			headers: {
@@ -43,20 +43,20 @@ const useFoldersStore = () => {
 			.then(myJson => newJsonFolder.push(myJson))
 			.catch(e => console.log(e));
 
-		setFoldersStore(foldersStore => ({ ...foldersStore, folders: newJsonFolder }));
+		setFoldersState(foldersState => ({ ...foldersState, folders: newJsonFolder }));
 	}
 
 	function deleteSelectedFolder(folderIndex) {
 		const folderId = getFolderId(folderIndex);
 		const deleteURL = dbURL + '/' + folderId;
-		let newFoldersArray = foldersStore.folders.filter(({ id }) => {
+		let newFoldersArray = foldersState.folders.filter(({ id }) => {
 			return id !== folderId;
 		});
 
 		fetch(deleteURL, { method: 'DELETE' })
 			.then(response => response.json())
 			.then(console.log('Folder Deleted'))
-			.then(setFoldersStore(foldersStore => ({ ...foldersStore, folders: newFoldersArray })))
+			.then(setFoldersState(foldersState => ({ ...foldersState, folders: newFoldersArray })))
 			.catch(e => console.log(e));
 	}
 
@@ -64,10 +64,10 @@ const useFoldersStore = () => {
 		fetchFoldersFromDb,
 		getFolderName,
 		getFolderId,
-		getFoldersStore,
+		getFoldersState,
 		addNewFolder,
 		deleteSelectedFolder
 	};
 };
 
-export default useFoldersStore;
+export default useFoldersState;

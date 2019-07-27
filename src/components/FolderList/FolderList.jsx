@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Folder from '../Folder/Folder';
 import { NavLink } from 'react-router-dom';
 
-import useFoldersStore from '../../useFoldersStore';
+import useFoldersState from '../../useFoldersState';
 
 const FolderList = ({ allFolders }) => {
 	const {
@@ -11,8 +11,8 @@ const FolderList = ({ allFolders }) => {
 		getFolderId,
 		addNewFolder,
 		deleteSelectedFolder,
-		getFoldersStore
-	} = useFoldersStore();
+		getFoldersState
+	} = useFoldersState();
 
 	return (
 		<>
@@ -28,11 +28,11 @@ const FolderList = ({ allFolders }) => {
 			<button type="button" onClick={() => addNewFolder()}>
 				Add New Folder
 			</button>
-			<button type="button" onClick={() => console.log(deleteSelectedFolder(0))}>
+			<button type="button" onClick={() => deleteSelectedFolder(0)}>
 				Delete Selected Folder
 			</button>
-			<button type="button" onClick={() => console.log(getFoldersStore())}>
-				Log foldersStore
+			<button type="button" onClick={() => console.log(getFoldersState())}>
+				Log foldersState
 			</button>
 		</>
 		// <>

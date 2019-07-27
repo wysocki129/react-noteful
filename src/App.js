@@ -4,14 +4,10 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import FolderList from './components/FolderList/FolderList';
 import NoteList from './components/NoteList/NoteList';
 import NotePage from './components/NotePage/NotePage';
-import { dummyFolders, dummyNotes } from './dummy-store';
 
-import { FoldersStoreContext, FoldersStoreProvider } from './FoldersStore';
+import { FoldersStateContext, FoldersStateProvider } from './FoldersState';
 
 const App = () => {
-	const [allFolders, setAllFolders] = useState(dummyFolders);
-	const [allNotes, setAllNotes] = useState(dummyNotes);
-
 	const getNotePage = (allNotes, allFolders, selectedNoteId) => {
 		let noteForPage = allNotes.filter(note => note.id === selectedNoteId);
 		let noteFolderName = allFolders.filter(folder => folder.id == noteForPage[0].folderId);
@@ -21,9 +17,9 @@ const App = () => {
 
 	return (
 		<>
-			<FoldersStoreProvider>
+			<FoldersStateProvider>
 				<FolderList />
-			</FoldersStoreProvider>
+			</FoldersStateProvider>
 		</>
 	);
 };

@@ -6,7 +6,7 @@ import NoteList from './components/NoteList/NoteList';
 import NotePage from './components/NotePage/NotePage';
 
 import { FoldersStateContext, FoldersStateProvider } from './FoldersState';
-
+import { NotesStateContext, NotesStateProvider } from './NotesState';
 const App = () => {
 	const getNotePage = (allNotes, allFolders, selectedNoteId) => {
 		let noteForPage = allNotes.filter(note => note.id === selectedNoteId);
@@ -18,7 +18,9 @@ const App = () => {
 	return (
 		<>
 			<FoldersStateProvider>
-				<FolderList />
+				<NotesStateProvider>
+					<FolderList />
+				</NotesStateProvider>
 			</FoldersStateProvider>
 		</>
 	);

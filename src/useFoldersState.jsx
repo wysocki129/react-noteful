@@ -27,6 +27,10 @@ const useFoldersState = () => {
 		return foldersState.folders[folderIndex].id;
 	}
 
+	function getSelectedFolderId(folderIndex) {
+		return foldersState.selectedFolderIndex;
+	}
+
 	function addNewFolder() {
 		const newFolder = { name: 'Name_String' };
 		let newJsonFolder = foldersState.folders;

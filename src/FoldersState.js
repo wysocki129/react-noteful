@@ -5,7 +5,7 @@ const FoldersStateContext = createContext([{}, () => {}]);
 const FoldersStateProvider = props => {
 	const [foldersState, setFoldersState] = useState({
 		folders: [],
-		selectedFolderIndex: null
+		selectedFolderId: null
 	});
 
 	return (

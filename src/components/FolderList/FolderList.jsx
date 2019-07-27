@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Folder from '../Folder/Folder';
 import { NavLink } from 'react-router-dom';
+import NoteList from '../NoteList/NoteList';
 
 import useFoldersState from '../../useFoldersState';
 
@@ -11,11 +12,13 @@ const FolderList = ({ allFolders }) => {
 		getFolderId,
 		addNewFolder,
 		deleteSelectedFolder,
-		getFoldersState
+		getFoldersState,
+		getSelectedFolderId
 	} = useFoldersState();
 
 	return (
 		<>
+			<h2>Folders</h2>
 			<button type="button" onClick={() => fetchFoldersFromDb()}>
 				Fetch
 			</button>
@@ -34,6 +37,10 @@ const FolderList = ({ allFolders }) => {
 			<button type="button" onClick={() => console.log(getFoldersState())}>
 				Log foldersState
 			</button>
+			<br />
+			<hl />
+			<h2>Notes</h2>
+			<NoteList />
 		</>
 		// <>
 		// 	{allFolders.map(folder => (

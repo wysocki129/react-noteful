@@ -19,6 +19,18 @@ const useFoldersState = () => {
 		return foldersState;
 	}
 
+	function getFolderWithFolderId(folderId) {
+		const folderObj = foldersState.folders.filter(folder => {
+			return folder.id === folderId;
+		});
+		console.log(folderObj);
+		return folderObj[0];
+	}
+
+	function getFoldersArray() {
+		return foldersState.folders;
+	}
+
 	function getFolderName(folderIndex) {
 		return foldersState.folders[folderIndex].name;
 	}
@@ -70,7 +82,9 @@ const useFoldersState = () => {
 		getFolderId,
 		getFoldersState,
 		addNewFolder,
-		deleteSelectedFolder
+		deleteSelectedFolder,
+		getFoldersArray,
+		getFolderWithFolderId
 	};
 };
 

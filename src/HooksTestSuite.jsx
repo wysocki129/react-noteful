@@ -3,6 +3,8 @@ import useFoldersState from './useFoldersState';
 import useNotesState from './useNotesState';
 
 //To run test add this to App.js:
+// import HooksTestSuite from './HooksTestSuite'
+// return(
 // <>
 // 	<FoldersStateProvider>
 // 		<NotesStateProvider>
@@ -10,6 +12,7 @@ import useNotesState from './useNotesState';
 // 		</NotesStateProvider>
 // 	</FoldersStateProvider>
 // </>
+// )
 
 const HooksTestSuite = () => {
 	const {

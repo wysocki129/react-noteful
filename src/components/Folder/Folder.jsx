@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Folder = ({ data }) => {
-	return <li>{data.name}</li>;
+const Folder = ({ name }) => {
+	return <li>{name}</li>;
 };
 
 export default Folder;

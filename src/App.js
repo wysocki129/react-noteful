@@ -1,24 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import FolderList from './components/FolderList/FolderList';
 import NoteList from './components/NoteList/NoteList';
 import NotePage from './components/NotePage/NotePage';
-import HooksTestSuite from './HooksTestSuite';
-import useFoldersState from './useFoldersState';
-import useNotesState from './useNotesState';
 
 import { FoldersStateProvider } from './FoldersState';
 import { NotesStateProvider } from './NotesState';
 
 const App = () => {
-	const { fetchFoldersFromDb } = useFoldersState();
-
-	useEffect(() => {
-		{
-			fetchFoldersFromDb();
-		}
-	});
 	return (
 		<>
 			<FoldersStateProvider>
@@ -47,13 +37,13 @@ const App = () => {
 							<Route
 								path="/folder/:folderId"
 								exact
-								render={() => (
+								render={({ match }) => (
 									<>
 										<nav className="App__nav">
 											<FolderList />
 										</nav>
 										<main className="App__main">
-											<NoteList />
+											<NoteList selectedFolder={match.params.folderId} />
 										</main>
 										s
 									</>
@@ -62,9 +52,9 @@ const App = () => {
 							<Route
 								path="/folder/:folderId/note/:noteId"
 								exact
-								render={() => (
+								render={({ match }) => (
 									<>
-										<NotePage />
+										<NotePage noteId={match.params.noteId} />
 									</>
 								)}
 							/>

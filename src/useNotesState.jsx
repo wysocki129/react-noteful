@@ -17,6 +17,19 @@ const useFoldersState = () => {
 		return notesState;
 	}
 
+	function getNotesArray() {
+		return notesState.notes;
+	}
+
+	function getNoteWithNoteId(noteId) {
+		const noteObj = notesState.notes.filter(note => {
+			return note.id === noteId;
+		});
+
+		console.log(noteObj[0]);
+		return noteObj[0];
+	}
+
 	function getNoteName(noteIndex) {
 		return notesState.notes[noteIndex].name;
 	}
@@ -85,7 +98,9 @@ const useFoldersState = () => {
 		deleteSelectedNote,
 		getNoteFolderId,
 		getNoteModified,
-		getNoteContent
+		getNoteContent,
+		getNotesArray,
+		getNoteWithNoteId
 	};
 };
 

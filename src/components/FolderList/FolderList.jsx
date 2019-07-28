@@ -5,18 +5,15 @@ import { NavLink } from 'react-router-dom';
 import useFoldersState from '../../useFoldersState';
 
 const FolderList = () => {
-	const {
-		getFolderName,
-		getFolderId,
-		addNewFolder,
-		deleteSelectedFolder,
-		getFoldersState,
-		getSelectedFolderId
-	} = useFoldersState();
+	const { getFoldersArray } = useFoldersState();
 
 	return (
 		<>
-			<h1>Folders List</h1>
+			{getFoldersArray().map(folder => (
+				<NavLink key={folder.id} to={`/folder/${folder.id}`}>
+					<Folder name={folder.name} />
+				</NavLink>
+			))}
 		</>
 	);
 };

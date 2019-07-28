@@ -1,28 +1,29 @@
 import React from 'react';
 import Note from '../Note/Note';
+import useNotesState from '../../useNotesState';
 
-const NoteList = () => {
-	return <></>;
+const NoteList = ({ selectedFolder }) => {
+	const { getNotesArray } = useNotesState();
 
-	// const filterNotes = (allNotes, filter) => {
-	// 	if (filter === null || filter === undefined) {
-	// 		return allNotes;
-	// 	} else {
-	// 		let displayNotes = allNotes.filter(folderNotes => {
-	// 			return folderNotes.folderId === filter;
-	// 		});
-	// 		return displayNotes;
-	// 	}
-	// };
-	// return (
-	// 	<ul>
-	// 		{filterNotes(allNotes, folderFilter).map(note => (
-	// 			<li key={note.id}>
-	// 				<Note data={note} />
-	// 			</li>
-	// 		))}
-	// 	</ul>
-	// );
+	let displayNotes = [];
+
+	selectedFolder === null || selectedFolder === undefined
+		? (displayNotes = getNotesArray())
+		: (displayNotes = getNotesArray().filter(folderNotes => {
+				return folderNotes.folderId === selectedFolder;
+		  }));
+
+	return (
+		<>
+			<ul>
+				{displayNotes.map(note => (
+					<li key={note.id}>
+						<Note data={note} />
+					</li>
+				))}
+			</ul>
+		</>
+	);
 };
 
 export default NoteList;

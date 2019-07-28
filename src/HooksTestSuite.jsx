@@ -2,6 +2,15 @@ import React, { useContext } from 'react';
 import useFoldersState from './useFoldersState';
 import useNotesState from './useNotesState';
 
+//To run test add this to App.js:
+// <>
+// 	<FoldersStateProvider>
+// 		<NotesStateProvider>
+// 			<HooksTestSuite />
+// 		</NotesStateProvider>
+// 	</FoldersStateProvider>
+// </>
+
 const HooksTestSuite = () => {
 	const {
 		fetchNotesFromDb,

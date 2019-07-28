@@ -1,13 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Folder from '../Folder/Folder';
 import { NavLink } from 'react-router-dom';
-import NoteList from '../NoteList/NoteList';
 
 import useFoldersState from '../../useFoldersState';
 
-const FolderList = ({ allFolders }) => {
+const FolderList = () => {
 	const {
-		fetchFoldersFromDb,
 		getFolderName,
 		getFolderId,
 		addNewFolder,
@@ -17,15 +15,9 @@ const FolderList = ({ allFolders }) => {
 	} = useFoldersState();
 
 	return (
-		<></>
-		// <>
-		// 	{allFolders.map(folder => (
-		// 		<NavLink key={folder.id} to={`/folder/${folder.id}`}>
-		// 			<Folder data={folder} />
-		// 		</NavLink>
-		// 	))}
-		// 	<button type="button">Add Folder</button>
-		// </>
+		<>
+			<h1>Folders List</h1>
+		</>
 	);
 };
 

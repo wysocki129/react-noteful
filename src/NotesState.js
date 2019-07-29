@@ -1,26 +1,32 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 const NotesStateContext = createContext([{}, () => {}]);
 
 const NotesStateProvider = props => {
 	const [notesState, setNotesState] = useState({
 		notes: [],
-		selectedNoteIndex: null,
-		firstFetch: true
+		getRequestNum: 0
 	});
-	const dbURL = 'http://localhost:9090/notes';
+
+	useEffect(() => {
+		fetchNotesFromDb();
+	}, [notesState.getRequestNum]);
+
+	useEffect(() => {
+		const noteObj = notesState.notes.filter(note => {
+			return note.id === notesState.selectedNoteId;
+		});
+		if (noteObj[0] !== undefined) {
+			setNotesState(notesState => ({ ...notesState, selectedFolderId: noteObj[0].folderId }));
+		}
+	}, [notesState.selectedNoteId]);
 
 	function fetchNotesFromDb() {
-		fetch(dbURL)
+		fetch('http://localhost:9090/notes')
 			.then(res => res.json())
 			.then(allNotes => setNotesState(notesState => ({ ...notesState, notes: allNotes })))
 			.then(() => console.log('Notes Fetch Complete'))
 			.catch(e => console.log(e));
-	}
-
-	if (notesState.firstFetch === true) {
-		fetchNotesFromDb();
-		setNotesState(notesState => ({ ...notesState, firstFetch: false }));
 	}
 
 	return (

@@ -1,23 +1,35 @@
 import React from 'react';
-import Note from '../Note/Note';
 import { Link } from 'react-router-dom';
 import useNotesState from '../../useNotesState';
-import useFoldersState from '../../useFoldersState';
 
-const NotePage = ({ noteId }) => {
-	const { getNoteWithNoteId } = useNotesState();
-	const { getFolderWithFolderId } = useFoldersState();
+const NotePage = ({ noteId, history }) => {
+	const { getNoteWithNoteId, deleteSelectedNote } = useNotesState();
 
 	const displayNote = getNoteWithNoteId(noteId);
-	const folder = getFolderWithFolderId(displayNote.folderId);
+
+	const deleteNoteOnPage = () => {
+		deleteSelectedNote(noteId);
+		history.push('/');
+	};
 
 	return (
 		<>
 			<nav className="NotePage_nav">
-				<Link to={`/folder/${folder.id}`}>{folder.name}</Link>
+				<Link to={`/folder/${displayNote.folderId}`}>{displayNote.folderId}</Link>
 				<h4>{displayNote.name}</h4>
 			</nav>
-			<Note data={displayNote} />
+			<main>
+				<div className="Note" key={displayNote.id} id={displayNote.id}>
+					<Link to={`/folder/${displayNote.folderId}/note/${displayNote.id}`}>
+						<h3> {displayNote.name} </h3>
+					</Link>
+					<p>{displayNote.content}</p>
+					<p>{displayNote.modified}</p>
+					<button type="button" onClick={() => deleteNoteOnPage()}>
+						Delete Note
+					</button>
+				</div>
+			</main>
 		</>
 	);
 };

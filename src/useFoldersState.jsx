@@ -5,47 +5,30 @@ const useFoldersState = () => {
 	const [foldersState, setFoldersState] = useContext(FoldersStateContext);
 	const dbURL = 'http://localhost:9090/folders';
 
-	function fetchFoldersFromDb() {
-		fetch(dbURL)
-			.then(res => res.json())
-			.then(allFolders =>
-				setFoldersState(foldersState => ({ ...foldersState, folders: allFolders }))
-			)
-			.then(() => console.log('Folder Fetch Complete'))
-			.catch(e => console.log(e));
-	}
+	const folderGetRequest = () => {
+		var getRequestRN = foldersState.getRequestNum;
+		getRequestRN++;
+		setFoldersState(foldersState => ({ ...foldersState, getRequestNum: getRequestRN }));
+	};
 
 	function getFoldersState() {
 		return foldersState;
-	}
-
-	function getFolderWithFolderId(folderId) {
-		const folderObj = foldersState.folders.filter(folder => {
-			return folder.id === folderId;
-		});
-		console.log(folderObj);
-		return folderObj[0];
 	}
 
 	function getFoldersArray() {
 		return foldersState.folders;
 	}
 
-	function getFolderName(folderIndex) {
-		return foldersState.folders[folderIndex].name;
+	function getSelectedFolder() {
+		const folderObj = foldersState.folders.filter(folder => {
+			return folder.id === foldersState.selectedFolderId;
+		});
+		console.log(folderObj);
+		return folderObj[0];
 	}
 
-	function getFolderId(folderIndex) {
-		return foldersState.folders[folderIndex].id;
-	}
-
-	function getSelectedFolderId(folderIndex) {
-		return foldersState.selectedFolderIndex;
-	}
-
-	function addNewFolder() {
-		const newFolder = { name: 'Name_String' };
-		let newJsonFolder = foldersState.folders;
+	function postNewFolder(newFolderName = 'Folder_String') {
+		const newFolder = { name: `${newFolderName}` };
 		const options = {
 			method: 'POST',
 			headers: {
@@ -55,36 +38,28 @@ const useFoldersState = () => {
 		};
 
 		fetch(dbURL, options)
-			.then(response => response.json())
-			.then(myJson => newJsonFolder.push(myJson))
+			.then(console.log('Post Request Complete'))
+			.then(folderGetRequest())
 			.catch(e => console.log(e));
-
-		setFoldersState(foldersState => ({ ...foldersState, folders: newJsonFolder }));
 	}
 
-	function deleteSelectedFolder(folderIndex) {
-		const folderId = getFolderId(folderIndex);
-		const deleteURL = dbURL + '/' + folderId;
-		let newFoldersArray = foldersState.folders.filter(({ id }) => {
-			return id !== folderId;
-		});
+	function deleteSelectedFolder() {
+		const deleteURL = dbURL + '/' + foldersState.selectedFolderId;
 
 		fetch(deleteURL, { method: 'DELETE' })
 			.then(response => response.json())
+			.then(folderGetRequest())
 			.then(console.log('Folder Deleted'))
-			.then(setFoldersState(foldersState => ({ ...foldersState, folders: newFoldersArray })))
 			.catch(e => console.log(e));
 	}
 
 	return {
-		fetchFoldersFromDb,
-		getFolderName,
-		getFolderId,
 		getFoldersState,
-		addNewFolder,
+		postNewFolder,
 		deleteSelectedFolder,
 		getFoldersArray,
-		getFolderWithFolderId
+		getSelectedFolder,
+		folderGetRequest
 	};
 };
 

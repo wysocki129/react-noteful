@@ -1,17 +1,15 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { NotesStateContext } from './NotesState';
 
 const useFoldersState = () => {
 	const [notesState, setNotesState] = useContext(NotesStateContext);
 	const dbURL = 'http://localhost:9090/notes';
 
-	function fetchNotesFromDb() {
-		fetch(dbURL)
-			.then(res => res.json())
-			.then(allNotes => setNotesState(notesState => ({ ...notesState, notes: allNotes })))
-			.then(() => console.log('Notes Fetch Complete'))
-			.catch(e => console.log(e));
-	}
+	const noteGetRequest = () => {
+		var getRequestRN = notesState.getRequestNum;
+		getRequestRN++;
+		setNotesState(notesState => ({ ...notesState, getRequestNum: getRequestRN }));
+	};
 
 	function getNotesState() {
 		return notesState;
@@ -30,35 +28,15 @@ const useFoldersState = () => {
 		return noteObj[0];
 	}
 
-	function getNoteName(noteIndex) {
-		return notesState.notes[noteIndex].name;
-	}
-
-	function getNoteId(noteIndex) {
-		return notesState.notes[noteIndex].id;
-	}
-
-	function getNoteFolderId(noteIndex) {
-		return notesState.notes[noteIndex].folderId;
-	}
-
-	function getNoteModified(noteIndex) {
-		return notesState.notes[noteIndex].modified;
-	}
-
-	function getNoteContent(noteIndex) {
-		return notesState.notes[noteIndex].content;
-	}
-
-	function addNewNote(folderId) {
+	function postNewNote(newNoteName, newNoteContent) {
 		let date = new Date();
 		const newNote = {
-			name: 'Name_String',
-			folderId: folderId,
+			name: `${newNoteName}`,
+			folderId: notesState.selectedFolderId,
 			modified: date,
-			content: 'Content_String'
+			content: `${newNoteContent}`
 		};
-		let newJsonNote = notesState.notes;
+
 		const options = {
 			method: 'POST',
 			headers: {
@@ -69,38 +47,28 @@ const useFoldersState = () => {
 
 		fetch(dbURL, options)
 			.then(response => response.json())
-			.then(myJson => newJsonNote.push(myJson))
+			.then(console.log('New Note Posted'))
+			.then(noteGetRequest())
 			.catch(e => console.log(e));
-
-		setNotesState(notesState => ({ ...notesState, notes: newJsonNote }));
 	}
 
-	function deleteSelectedNote(noteIndex) {
-		const noteId = getNoteId(noteIndex);
-		const deleteURL = dbURL + '/' + noteId;
-		let newNotesArray = notesState.notes.filter(({ id }) => {
-			return id !== noteId;
-		});
+	function deleteSelectedNote(selectedNote) {
+		const deleteURL = dbURL + '/' + selectedNote;
 
 		fetch(deleteURL, { method: 'DELETE' })
 			.then(response => response.json())
 			.then(console.log('Note Deleted'))
-			.then(setNotesState(notesState => ({ ...notesState, notes: newNotesArray })))
+			.then(noteGetRequest())
 			.catch(e => console.log(e));
 	}
 
 	return {
-		fetchNotesFromDb,
-		getNoteName,
-		getNoteId,
 		getNotesState,
-		addNewNote,
-		deleteSelectedNote,
-		getNoteFolderId,
-		getNoteModified,
-		getNoteContent,
 		getNotesArray,
-		getNoteWithNoteId
+		getNoteWithNoteId,
+		postNewNote,
+		deleteSelectedNote,
+		noteGetRequest
 	};
 };
 

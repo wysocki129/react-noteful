@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import FolderList from './components/FolderList/FolderList';
 import NoteList from './components/NoteList/NoteList';
 import NotePage from './components/NotePage/NotePage';
-
+import HooksTestSuite from './HooksTestSuite';
 import { FoldersStateProvider } from './FoldersState';
 import { NotesStateProvider } from './NotesState';
 
@@ -40,25 +40,25 @@ const App = () => {
 								render={({ match }) => (
 									<>
 										<nav className="App__nav">
-											<FolderList />
+											<FolderList selectedFolder={match.params.folderId} />
 										</nav>
 										<main className="App__main">
 											<NoteList selectedFolder={match.params.folderId} />
 										</main>
-										s
 									</>
 								)}
 							/>
 							<Route
 								path="/folder/:folderId/note/:noteId"
 								exact
-								render={({ match }) => (
+								render={({ match, history }) => (
 									<>
-										<NotePage noteId={match.params.noteId} />
+										<NotePage noteId={match.params.noteId} history={history} />
 									</>
 								)}
 							/>
 						</div>
+						<HooksTestSuite />
 					</Router>
 				</NotesStateProvider>
 			</FoldersStateProvider>

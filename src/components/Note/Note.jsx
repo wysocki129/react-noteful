@@ -1,31 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import useNotesState from '../../useNotesState';
 
 const Note = ({ data }) => {
-	const [isContentActive, setIsContentActive] = useState(false);
-
-	const showContent = ({ isContentActive }) => {
-		let whatToShow =
-			isContentActive === true ? (
-				<>
-					<p>{data.content}</p>
-					<button
-						type="button"
-						onClick={() => setIsContentActive(false)}
-					>
-						Hide Content
-					</button>
-				</>
-			) : (
-				<button
-					type="button"
-					onClick={() => setIsContentActive(true)}
-				>
-					Show Content
-				</button>
-			);
-		return whatToShow;
-	};
+	const { deleteSelectedNote } = useNotesState();
 
 	return (
 		<div className="Note" key={data.id} id={data.id}>
@@ -33,11 +11,7 @@ const Note = ({ data }) => {
 				<h3> {data.name} </h3>
 			</Link>
 			<p>{data.modified}</p>
-			{showContent({ isContentActive })}
-			<button
-				type="button"
-				onClick={() => console.log('Note Deleted')}
-			>
+			<button type="button" onClick={() => deleteSelectedNote(data.id)}>
 				Delete Note
 			</button>
 		</div>

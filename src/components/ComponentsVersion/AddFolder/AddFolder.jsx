@@ -1,22 +1,77 @@
 import React from 'react';
-import useFormValidation from '../useFormValidation';
-import ErrorBoundries from '../ErrorBoundry/ErrorBoundry';
+import DBContext from '../DBContext';
 
-const AddFolder = () => {
-	const formState = { name: `` };
-	const { handleChange, handleFolderSubmit, values } = useFormValidation(formState);
+class AddFolder extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = { name: '' };
 
-	return (
-		<>
-			<form onSubmit={handleFolderSubmit}>
-				<label>
-					New Folder
-					<input type="text" name="name" value={values.name} onChange={handleChange} />
-				</label>
-				<button type="submit">Add New Folder</button>
-			</form>
-		</>
-	);
-};
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	static defaultProps = {
+		match: {
+			params: {}
+		},
+		onPostNewFolder: () => {}
+	};
+	static contextType = DBContext;
+
+	handleChange(event) {
+		this.setState({ [event.target.name]: event.target.value });
+	}
+
+	handleSubmit = event => {
+		event.preventDefault();
+
+		const folderValues = this.state;
+
+		const newNote = {
+			name: folderValues.name
+		};
+
+		const options = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(newNote)
+		};
+
+		fetch('http://localhost:9090/folders', options)
+			.then(res => {
+				if (!res.ok) return res.json().then(e => Promise.reject(e));
+				return res.json();
+			})
+			.then(
+				folder => (this.context.postNewFolder(folder), this.props.onPostNewFolder(folder))
+			)
+			.catch(error => {
+				console.error({ error });
+			});
+	};
+
+	render() {
+		return (
+			<>
+				<form onSubmit={this.handleSubmit}>
+					<label>
+						Name:
+						<input
+							type="text"
+							name="name"
+							value={this.state.name}
+							onChange={this.handleChange}
+							placeholder="New Folder Name"
+						/>
+					</label>
+
+					<button type="submit">Add New Folder</button>
+				</form>
+			</>
+		);
+	}
+}
 
 export default AddFolder;

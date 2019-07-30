@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import DBContext from '../DBContext';
+import AddFolder from '../AddFolder/AddFolder';
 
 const countNotesForFolder = (notes = [], folderId) =>
 	notes.filter(note => note.folderId === folderId).length;
@@ -26,7 +27,9 @@ export default class NoteListNav extends React.Component {
 						</li>
 					))}
 				</ul>
-				<div className="NoteListNav__button-wrapper" />
+				<div className="NoteListNav_AddFolder">
+					<AddFolder />
+				</div>
 			</div>
 		);
 	}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import DBContext from '../DBContext';
 import Note from '../Note/Note';
+import AddNote from '../AddNote/AddNote';
 
 const getNotesForFolder = (notes = [], folderId) =>
 	!folderId ? notes : notes.filter(note => note.folderId === folderId);
@@ -29,9 +30,8 @@ export default class NoteListMain extends Component {
 							</li>
 						))}
 					</ul>
-					<div className="NoteListMain__button-container">
-						<br />
-						Note
+					<div className="NoteListMain_AddNote">
+						<AddNote />
 					</div>
 				</section>
 			</>

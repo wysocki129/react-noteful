@@ -6,7 +6,6 @@ import NoteListMain from './components/ComponentsVersion/NoteListMain/NoteListMa
 import NotePageNav from './components/ComponentsVersion/NotePageNav/NotePageNav';
 import NotePageMain from './components/ComponentsVersion/NotePageMain/NotePageMain';
 import DBContext from './components/ComponentsVersion/DBContext';
-import AddNote from './components/ComponentsVersion/AddNote/AddNote';
 
 class App extends Component {
 	state = {
@@ -37,8 +36,6 @@ class App extends Component {
 					<Route exact key={path} path={path} component={NoteListNav} />
 				))}
 				<Route path="/note/:noteId" component={NotePageNav} />
-				<Route path="/add-folder" component={NotePageNav} />
-				<Route path="/add-note" component={NotePageNav} />
 			</>
 		);
 	}
@@ -70,12 +67,22 @@ class App extends Component {
 			.then(notes => this.setState({ notes: notes }));
 	};
 
+	handlePostNewFolder = () => {
+		fetch(`http://localhost:9090/folders`)
+			.then(foldersRes => {
+				if (!foldersRes.ok) return foldersRes.json().then(e => Promise.reject(e));
+				return foldersRes.json();
+			})
+			.then(folders => this.setState({ folders: folders }));
+	};
+
 	render() {
 		const value = {
 			notes: this.state.notes,
 			folders: this.state.folders,
 			deleteNote: this.handleDeleteNote,
-			postNewNote: this.handlePostNewNote
+			postNewNote: this.handlePostNewNote,
+			postNewFolder: this.handlePostNewFolder
 		};
 		return (
 			<>
@@ -89,10 +96,7 @@ class App extends Component {
 								</Link>
 							</header>
 
-							<main className="App__main">
-								{this.renderMainRoutes()}
-								<AddNote />
-							</main>
+							<main className="App__main">{this.renderMainRoutes()}</main>
 						</div>
 					</Router>
 				</DBContext.Provider>

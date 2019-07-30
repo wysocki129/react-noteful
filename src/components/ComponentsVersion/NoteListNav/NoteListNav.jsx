@@ -2,12 +2,6 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import DBContext from '../DBContext';
 
-const findFolder = (folders = [], folderId) => folders.find(folder => folder.id === folderId);
-
-const findNote = (notes = [], noteId) => notes.find(note => note.id === noteId);
-
-const getNotesForFolder = (notes = [], folderId) =>
-	!folderId ? notes : notes.filter(note => note.folderId === folderId);
 const countNotesForFolder = (notes = [], folderId) =>
 	notes.filter(note => note.folderId === folderId).length;
 

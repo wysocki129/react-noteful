@@ -6,6 +6,8 @@ import NoteListMain from './components/ComponentsVersion/NoteListMain/NoteListMa
 import NotePageNav from './components/ComponentsVersion/NotePageNav/NotePageNav';
 import NotePageMain from './components/ComponentsVersion/NotePageMain/NotePageMain';
 import DBContext from './components/ComponentsVersion/DBContext';
+import AddNote from './components/ComponentsVersion/AddNote/AddNote';
+
 class App extends Component {
 	state = {
 		notes: [],
@@ -58,11 +60,22 @@ class App extends Component {
 		});
 	};
 
+	handlePostNewNote = () => {
+		fetch(`http://localhost:9090/notes`)
+			.then(notesRes => {
+				if (!notesRes.ok) return notesRes.json().then(e => Promise.reject(e));
+
+				return notesRes.json();
+			})
+			.then(notes => this.setState({ notes: notes }));
+	};
+
 	render() {
 		const value = {
 			notes: this.state.notes,
 			folders: this.state.folders,
-			deleteNote: this.handleDeleteNote
+			deleteNote: this.handleDeleteNote,
+			postNewNote: this.handlePostNewNote
 		};
 		return (
 			<>
@@ -76,7 +89,10 @@ class App extends Component {
 								</Link>
 							</header>
 
-							<main className="App__main">{this.renderMainRoutes()}</main>
+							<main className="App__main">
+								{this.renderMainRoutes()}
+								<AddNote />
+							</main>
 						</div>
 					</Router>
 				</DBContext.Provider>

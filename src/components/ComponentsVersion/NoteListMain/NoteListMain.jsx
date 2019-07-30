@@ -3,14 +3,8 @@ import { Link } from 'react-router-dom';
 import DBContext from '../DBContext';
 import Note from '../Note/Note';
 
-const findFolder = (folders = [], folderId) => folders.find(folder => folder.id === folderId);
-
-const findNote = (notes = [], noteId) => notes.find(note => note.id === noteId);
-
 const getNotesForFolder = (notes = [], folderId) =>
 	!folderId ? notes : notes.filter(note => note.folderId === folderId);
-const countNotesForFolder = (notes = [], folderId) =>
-	notes.filter(note => note.folderId === folderId).length;
 
 export default class NoteListMain extends Component {
 	static defaultProps = {

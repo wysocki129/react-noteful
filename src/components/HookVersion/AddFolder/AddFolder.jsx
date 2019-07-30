@@ -1,5 +1,5 @@
 import React from 'react';
-import useFormValidation from '../../useFormValidation';
+import useFormValidation from '../useFormValidation';
 import ErrorBoundries from '../ErrorBoundry/ErrorBoundry';
 
 const AddFolder = () => {

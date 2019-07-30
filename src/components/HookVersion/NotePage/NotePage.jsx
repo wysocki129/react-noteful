@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import useNotesState from '../../useNotesState';
+import useNotesState from '../../../useNotesState';
 
 const NotePage = ({ noteId, history }) => {
 	const { getNoteWithNoteId, deleteSelectedNote } = useNotesState();

@@ -3,7 +3,7 @@ import Folder from '../Folder/Folder';
 import AddFolder from '../AddFolder/AddFolder';
 import { NavLink } from 'react-router-dom';
 
-import useFoldersState from '../../useFoldersState';
+import useFoldersState from '../useFoldersState';
 
 const FolderList = () => {
 	const { getFoldersArray } = useFoldersState();

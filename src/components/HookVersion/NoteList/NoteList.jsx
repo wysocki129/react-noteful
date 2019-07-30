@@ -1,7 +1,7 @@
 import React from 'react';
 import Note from '../Note/Note';
-import useNotesState from '../../useNotesState';
-import AddNote from '../AddNote/AddNote';
+import useNotesState from '../../../useNotesState';
+import AddNote from '../../AddNote/AddNote';
 
 const NoteList = ({ selectedFolder }) => {
 	const { getNotesArray } = useNotesState();

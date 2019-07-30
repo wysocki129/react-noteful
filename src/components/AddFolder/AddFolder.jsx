@@ -1,0 +1,29 @@
+import React from 'react';
+import useFormValidation from '../../useFormValidation';
+import ErrorBoundries from '../ErrorBoundry/ErrorBoundry';
+
+const AddFolder = () => {
+	const formState = { name: `` };
+	const { handleChange, handleFolderSubmit, values } = useFormValidation(formState);
+
+	return (
+		<>
+			<ErrorBoundries>
+				<form onSubmit={handleFolderSubmit}>
+					<label>
+						New Folder
+						<input
+							type="text"
+							name="name"
+							value={values.name}
+							onChange={handleChange}
+						/>
+					</label>
+					<button type="submit">Add New Folder</button>
+				</form>
+			</ErrorBoundries>
+		</>
+	);
+};
+
+export default AddFolder;

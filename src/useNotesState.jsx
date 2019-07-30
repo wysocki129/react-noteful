@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { NotesStateContext } from './NotesState';
 
 const useFoldersState = () => {
@@ -28,13 +28,13 @@ const useFoldersState = () => {
 		return noteObj[0];
 	}
 
-	function postNewNote(newNoteName, newNoteContent) {
+	function postNewNote(note) {
 		let date = new Date();
 		const newNote = {
-			name: `${newNoteName}`,
-			folderId: notesState.selectedFolderId,
+			name: note.name,
+			folderId: note.folderId,
 			modified: date,
-			content: `${newNoteContent}`
+			content: note.content
 		};
 
 		const options = {
@@ -47,7 +47,6 @@ const useFoldersState = () => {
 
 		fetch(dbURL, options)
 			.then(response => response.json())
-			.then(console.log('New Note Posted'))
 			.then(noteGetRequest())
 			.catch(e => console.log(e));
 	}
@@ -56,10 +55,26 @@ const useFoldersState = () => {
 		const deleteURL = dbURL + '/' + selectedNote;
 
 		fetch(deleteURL, { method: 'DELETE' })
-			.then(response => response.json())
-			.then(console.log('Note Deleted'))
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(response.statusText);
+				}
+				return response.json();
+			})
 			.then(noteGetRequest())
-			.catch(e => console.log(e));
+			.catch(Error => console.log(Error));
+	}
+
+	function newNoteAuth(values) {
+		let errors = {};
+		if (!values.name) {
+			errors.name = 'Each note must have a name.';
+		}
+		if (Object.keys(errors).length !== 0) {
+			console.log(errors);
+		} else {
+			postNewNote(values);
+		}
 	}
 
 	return {
@@ -68,7 +83,8 @@ const useFoldersState = () => {
 		getNoteWithNoteId,
 		postNewNote,
 		deleteSelectedNote,
-		noteGetRequest
+		noteGetRequest,
+		newNoteAuth
 	};
 };
 

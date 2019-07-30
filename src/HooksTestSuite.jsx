@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import useFoldersState from './useFoldersState';
 import useNotesState from './useNotesState';
-import { get } from 'http';
 
 //To run test add this to App.js:
 // import HooksTestSuite from './HooksTestSuite'
@@ -44,9 +43,7 @@ const HooksTestSuite = () => {
 			<button type="button" onClick={() => console.log(getFoldersState())}>
 				Log foldersState
 			</button>
-
 			<br />
-			<hl />
 			<h2>Notes</h2>
 			<button type="button" onClick={() => noteGetRequest()}>
 				Fetch Notes

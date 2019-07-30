@@ -1,5 +1,6 @@
 import React from 'react';
 import Folder from '../Folder/Folder';
+import AddFolder from '../AddFolder/AddFolder';
 import { NavLink } from 'react-router-dom';
 
 import useFoldersState from '../../useFoldersState';
@@ -14,6 +15,7 @@ const FolderList = () => {
 					<Folder name={folder.name} />
 				</NavLink>
 			))}
+			<AddFolder />
 		</>
 	);
 };

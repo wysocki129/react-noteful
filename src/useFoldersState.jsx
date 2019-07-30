@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { FoldersStateContext } from './FoldersState';
+import ErrorBoundry from './components/ErrorBoundry/ErrorBoundry';
 
 const useFoldersState = () => {
 	const [foldersState, setFoldersState] = useContext(FoldersStateContext);
@@ -38,7 +39,6 @@ const useFoldersState = () => {
 		};
 
 		fetch(dbURL, options)
-			.then(console.log('Post Request Complete'))
 			.then(folderGetRequest())
 			.catch(e => console.log(e));
 	}
@@ -49,8 +49,23 @@ const useFoldersState = () => {
 		fetch(deleteURL, { method: 'DELETE' })
 			.then(response => response.json())
 			.then(folderGetRequest())
-			.then(console.log('Folder Deleted'))
 			.catch(e => console.log(e));
+	}
+
+	function newFolderAuth(values) {
+		let errors = {};
+		const isNotUnique = () =>
+			foldersState.folders.filter(folder => folder.name === values.name);
+		if (!values.name) {
+			errors.name = 'Each new folder needs a unique name.';
+		} else if (isNotUnique()[0] !== undefined) {
+			errors.name = 'This new folder name is not unique, try adding another one.';
+		}
+		if (Object.keys(errors).length !== 0) {
+			console.log(errors);
+		} else {
+			postNewFolder(values.name);
+		}
 	}
 
 	return {
@@ -59,7 +74,8 @@ const useFoldersState = () => {
 		deleteSelectedFolder,
 		getFoldersArray,
 		getSelectedFolder,
-		folderGetRequest
+		folderGetRequest,
+		newFolderAuth
 	};
 };
 

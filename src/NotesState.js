@@ -12,15 +12,6 @@ const NotesStateProvider = props => {
 		fetchNotesFromDb();
 	}, [notesState.getRequestNum]);
 
-	useEffect(() => {
-		const noteObj = notesState.notes.filter(note => {
-			return note.id === notesState.selectedNoteId;
-		});
-		if (noteObj[0] !== undefined) {
-			setNotesState(notesState => ({ ...notesState, selectedFolderId: noteObj[0].folderId }));
-		}
-	}, [notesState.selectedNoteId]);
-
 	function fetchNotesFromDb() {
 		fetch('http://localhost:9090/notes')
 			.then(res => res.json())

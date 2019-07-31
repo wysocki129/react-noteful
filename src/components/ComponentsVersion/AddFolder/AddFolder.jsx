@@ -1,5 +1,6 @@
 import React from 'react';
 import DBContext from '../DBContext';
+import ErrorBoundry from '../ErrorBoundry';
 
 class AddFolder extends React.Component {
 	constructor(props) {
@@ -54,7 +55,7 @@ class AddFolder extends React.Component {
 
 	render() {
 		return (
-			<>
+			<ErrorBoundry>
 				<form onSubmit={this.handleSubmit}>
 					<label>
 						Name:
@@ -69,7 +70,7 @@ class AddFolder extends React.Component {
 
 					<button type="submit">Add New Folder</button>
 				</form>
-			</>
+			</ErrorBoundry>
 		);
 	}
 }

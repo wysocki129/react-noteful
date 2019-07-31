@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import ErrorBoundry from '../ErrorBoundry';
 import DBContext from '../DBContext';
+import PropTypes from 'prop-types';
 
 export default class Note extends React.Component {
 	static defaultProps = {
@@ -25,7 +26,6 @@ export default class Note extends React.Component {
 			})
 			.then(() => {
 				this.context.deleteNote(noteId);
-				// allow parent to perform extra behaviour
 				this.props.onDeleteNote(noteId);
 			})
 			.catch(error => {
@@ -33,22 +33,38 @@ export default class Note extends React.Component {
 			});
 	};
 
+	formatDate = date => {
+		let newDate = new Date(date);
+
+		return newDate.toLocaleDateString();
+	};
+
 	render() {
 		const { name, id, modified } = this.props;
+
 		return (
-			<div className="Note">
-				<h2 className="Note__title">
-					<Link to={`/note/${id}`}>{name}</Link>
-				</h2>
-				<button className="Note__delete" type="button" onClick={this.handleClickDelete}>
-					remove
-				</button>
-				<div className="Note__dates">
-					<div className="Note__dates-modified">
-						Modified <span className="Date" />
+			<ErrorBoundry>
+				<div className="Note">
+					<h2 className="Note__title">
+						<Link to={`/note/${id}`}>{name}</Link>
+					</h2>
+					<button className="Note__delete" type="button" onClick={this.handleClickDelete}>
+						remove
+					</button>
+					<div className="Note__dates">
+						<div className="Note__dates-modified">
+							Modified: <span className="Date">{this.formatDate(modified)}</span>
+						</div>
 					</div>
 				</div>
-			</div>
+			</ErrorBoundry>
 		);
 	}
 }
+
+Note.propTypes = {
+	id: PropTypes.string,
+	content: PropTypes.string,
+	name: PropTypes.string.isRequired,
+	modified: PropTypes.string
+};

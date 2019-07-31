@@ -1,5 +1,6 @@
 import React from 'react';
 import DBContext from '../DBContext';
+import ErrorBoundry from '../ErrorBoundry';
 
 class AddNote extends React.Component {
 	constructor(props) {
@@ -26,7 +27,7 @@ class AddNote extends React.Component {
 		event.preventDefault();
 
 		const noteValues = this.state;
-		let date = new Date();
+		let date = new Date().toLocaleDateString();
 		const newNote = {
 			name: noteValues.name,
 			folderId: noteValues.folderId,
@@ -57,7 +58,7 @@ class AddNote extends React.Component {
 		const { folders = [] } = this.context;
 
 		return (
-			<>
+			<ErrorBoundry>
 				<form onSubmit={this.handleSubmit}>
 					<label>
 						Name:
@@ -92,7 +93,7 @@ class AddNote extends React.Component {
 					</select>
 					<button type="submit">Add New Note</button>
 				</form>
-			</>
+			</ErrorBoundry>
 		);
 	}
 }

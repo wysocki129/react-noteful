@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import DBContext from '../DBContext';
 import Note from '../Note/Note';
 import AddNote from '../AddNote/AddNote';

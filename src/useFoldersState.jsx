@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { FoldersStateContext } from './FoldersState';
-import ErrorBoundry from './components/ErrorBoundry/ErrorBoundry';
 
 const useFoldersState = () => {
 	const [foldersState, setFoldersState] = useContext(FoldersStateContext);

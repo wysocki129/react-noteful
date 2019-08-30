@@ -46,8 +46,16 @@ const useFoldersState = () => {
 		};
 
 		fetch(dbURL, options)
-			.then(response => response.json())
-			.then(noteGetRequest())
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(response.statusText);
+				}
+
+				noteGetRequest();
+
+				return response.json();
+			})
+
 			.catch(e => console.log(e));
 	}
 
@@ -59,8 +67,8 @@ const useFoldersState = () => {
 				if (!response.ok) {
 					throw new Error(response.statusText);
 				}
-				const allNotes = getNotesArray();
-				const remNotes = allNotes.filter(note => note.id !== selectedNote);
+				let allNotes = getNotesArray();
+				let remNotes = allNotes.filter(note => note.id !== selectedNote);
 				setNotesState(notesState => ({ ...notesState, notes: remNotes }));
 				return response.json();
 			})
@@ -77,10 +85,6 @@ const useFoldersState = () => {
 		} else {
 			postNewNote(values);
 		}
-	}
-
-	function patchSelectedNote(selectedNote) {
-		const patchURL = `${dbURL}/${selectedNote.id}`;
 	}
 
 	return {

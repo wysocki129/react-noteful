@@ -3,7 +3,7 @@ import { FoldersStateContext } from './FoldersState';
 
 const useFoldersState = () => {
 	const [foldersState, setFoldersState] = useContext(FoldersStateContext);
-	const dbURL = 'http://localhost:8000/api/folders';
+	const dbURL = 'https://still-citadel-89591.herokuapp.com/api/folders';
 
 	const folderGetRequest = () => {
 		var getRequestRN = foldersState.getRequestNum;

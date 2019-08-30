@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import useNotesState from '../../useNotesState';
 
 const Note = ({ data }) => {
-	const { deleteSelectedNote, patchSelectedNote } = useNotesState();
+	const { deleteSelectedNote } = useNotesState();
 
 	return (
 		<div className="Note" key={data.id} id={data.id}>
@@ -13,9 +13,6 @@ const Note = ({ data }) => {
 			<p>{data.modified}</p>
 			<button type="button" onClick={() => deleteSelectedNote(data.id)}>
 				Delete Note
-			</button>
-			<button type="button" onClick={() => patchSelectedNote()}>
-				Edit Note
 			</button>
 		</div>
 	);

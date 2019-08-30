@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import FolderList from './components/Folder/FolderList';
 import NoteList from './components/Note/NoteList';
 import NotePage from './components/Note/NotePage';
-import HooksTestSuite from './HooksTestSuite';
+// import HooksTestSuite from './HooksTestSuite';
 import { FoldersStateProvider } from './FoldersState';
 import { NotesStateProvider } from './NotesState';
 
@@ -58,7 +58,6 @@ const App = () => {
 								)}
 							/>
 						</div>
-						<HooksTestSuite />
 					</Router>
 				</NotesStateProvider>
 			</FoldersStateProvider>

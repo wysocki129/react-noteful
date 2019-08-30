@@ -3,7 +3,7 @@ import { NotesStateContext } from './NotesState';
 
 const useFoldersState = () => {
 	const [notesState, setNotesState] = useContext(NotesStateContext);
-	const dbURL = 'http://localhost:8000/api/notes';
+	const dbURL = 'https://still-citadel-89591.herokuapp.com/api/notes';
 
 	const noteGetRequest = () => {
 		var getRequestRN = notesState.getRequestNum;
@@ -59,9 +59,11 @@ const useFoldersState = () => {
 				if (!response.ok) {
 					throw new Error(response.statusText);
 				}
+				const allNotes = getNotesArray();
+				const remNotes = allNotes.filter(note => note.id !== selectedNote);
+				setNotesState(notesState => ({ ...notesState, notes: remNotes }));
 				return response.json();
 			})
-			.then(noteGetRequest())
 			.catch(Error => console.log(Error));
 	}
 

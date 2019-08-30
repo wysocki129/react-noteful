@@ -13,7 +13,7 @@ const NotesStateProvider = props => {
 	}, [notesState.getRequestNum]);
 
 	function fetchNotesFromDb() {
-		fetch('http://localhost:8000/api/notes')
+		fetch('https://still-citadel-89591.herokuapp.com/api/notes')
 			.then(res => res.json())
 			.then(allNotes => setNotesState(notesState => ({ ...notesState, notes: allNotes })))
 			.then(() => console.log('Notes Fetch Complete'))

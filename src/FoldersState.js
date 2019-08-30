@@ -14,7 +14,7 @@ const FoldersStateProvider = props => {
 	}, [foldersState.getRequestNum]);
 
 	function fetchFoldersFromDb() {
-		fetch('http://localhost:8000/api/folders')
+		fetch('https://still-citadel-89591.herokuapp.com/api/folders')
 			.then(res => res.json())
 			.then(allFolders =>
 				setFoldersState(foldersState => ({ ...foldersState, folders: allFolders }))

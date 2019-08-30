@@ -15,6 +15,10 @@ const useFoldersState = () => {
 		return foldersState;
 	}
 
+	function addNewFolder(id, name) {
+		folderGetRequest();
+	}
+
 	function getFoldersArray() {
 		return foldersState.folders;
 	}
@@ -42,9 +46,9 @@ const useFoldersState = () => {
 				if (!response.ok) {
 					throw new Error(response.statusText);
 				}
-				folderGetRequest();
 				return response.json();
 			})
+			.then(myJson => addNewFolder())
 			.catch(e => console.log(e));
 	}
 

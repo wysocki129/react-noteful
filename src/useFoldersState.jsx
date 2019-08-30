@@ -38,7 +38,13 @@ const useFoldersState = () => {
 		};
 
 		fetch(dbURL, options)
-			.then(folderGetRequest())
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(response.statusText);
+				}
+				folderGetRequest();
+				return response.json();
+			})
 			.catch(e => console.log(e));
 	}
 

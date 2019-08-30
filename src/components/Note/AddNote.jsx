@@ -29,7 +29,7 @@ const AddNote = () => {
 						placeholder="New Note Content"
 					/>
 				</label>
-				<select name="folderId" value={values.folderId} onChange={handleChange}>
+				<select name="folderid" value={values.folderid} onChange={handleChange}>
 					{getFoldersArray().map(folder => (
 						<option key={folder.id} value={folder.id}>
 							{folder.name}

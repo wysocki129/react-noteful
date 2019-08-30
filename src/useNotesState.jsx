@@ -3,7 +3,7 @@ import { NotesStateContext } from './NotesState';
 
 const useFoldersState = () => {
 	const [notesState, setNotesState] = useContext(NotesStateContext);
-	const dbURL = 'http://localhost:9090/notes';
+	const dbURL = 'http://localhost:8000/api/notes';
 
 	const noteGetRequest = () => {
 		var getRequestRN = notesState.getRequestNum;
@@ -21,7 +21,7 @@ const useFoldersState = () => {
 
 	function getNoteWithNoteId(noteId) {
 		const noteObj = notesState.notes.filter(note => {
-			return note.id === noteId;
+			return note.id == noteId;
 		});
 
 		console.log(noteObj[0]);
@@ -32,7 +32,7 @@ const useFoldersState = () => {
 		let date = new Date();
 		const newNote = {
 			name: note.name,
-			folderId: note.folderId,
+			folderid: note.folderid,
 			modified: date,
 			content: note.content
 		};
@@ -75,6 +75,10 @@ const useFoldersState = () => {
 		} else {
 			postNewNote(values);
 		}
+	}
+
+	function patchSelectedNote(selectedNote) {
+		const patchURL = `${dbURL}/${selectedNote.id}`;
 	}
 
 	return {

@@ -1,7 +1,7 @@
 import React from 'react';
-import Note from '../Note/Note';
+import Note from './Note';
 import useNotesState from '../../useNotesState';
-import AddNote from '../AddNote/AddNote';
+import AddNote from './AddNote';
 
 const NoteList = ({ selectedFolder }) => {
 	const { getNotesArray } = useNotesState();
@@ -11,7 +11,7 @@ const NoteList = ({ selectedFolder }) => {
 	selectedFolder === null || selectedFolder === undefined
 		? (displayNotes = getNotesArray())
 		: (displayNotes = getNotesArray().filter(folderNotes => {
-				return folderNotes.folderId === selectedFolder;
+				return folderNotes.folderid == selectedFolder;
 		  }));
 
 	return (

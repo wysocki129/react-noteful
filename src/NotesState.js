@@ -13,7 +13,7 @@ const NotesStateProvider = props => {
 	}, [notesState.getRequestNum]);
 
 	function fetchNotesFromDb() {
-		fetch('http://localhost:9090/notes')
+		fetch('http://localhost:8000/api/notes')
 			.then(res => res.json())
 			.then(allNotes => setNotesState(notesState => ({ ...notesState, notes: allNotes })))
 			.then(() => console.log('Notes Fetch Complete'))

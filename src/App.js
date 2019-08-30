@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import FolderList from './components/FolderList/FolderList';
-import NoteList from './components/NoteList/NoteList';
-import NotePage from './components/NotePage/NotePage';
+import FolderList from './components/Folder/FolderList';
+import NoteList from './components/Note/NoteList';
+import NotePage from './components/Note/NotePage';
 import HooksTestSuite from './HooksTestSuite';
 import { FoldersStateProvider } from './FoldersState';
 import { NotesStateProvider } from './NotesState';
@@ -49,7 +49,7 @@ const App = () => {
 								)}
 							/>
 							<Route
-								path="/folder/:folderId/note/:noteId"
+								path="/folder/:folderid/note/:noteId"
 								exact
 								render={({ match, history }) => (
 									<>

@@ -3,7 +3,7 @@ import { FoldersStateContext } from './FoldersState';
 
 const useFoldersState = () => {
 	const [foldersState, setFoldersState] = useContext(FoldersStateContext);
-	const dbURL = 'http://localhost:9090/folders';
+	const dbURL = 'http://localhost:8000/api/folders';
 
 	const folderGetRequest = () => {
 		var getRequestRN = foldersState.getRequestNum;
@@ -42,8 +42,8 @@ const useFoldersState = () => {
 			.catch(e => console.log(e));
 	}
 
-	function deleteSelectedFolder() {
-		const deleteURL = dbURL + '/' + foldersState.selectedFolderId;
+	function deleteSelectedFolder(folder) {
+		const deleteURL = `${dbURL}/${folder.id}`;
 
 		fetch(deleteURL, { method: 'DELETE' })
 			.then(response => response.json())

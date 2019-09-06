@@ -9,3 +9,28 @@ ul {
 	padding: 10px;
 	box-shadow: 2px black;
 }
+
+.note-list {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+}
+
+.note {
+	display: grid;
+	grid-auto-rows: minmax(35px, auto);
+	grid-gap: 3px;
+	max-width: 550px;
+	height: 175px;
+	margin: 5px auto;
+	border: 1px solid black;
+	border-radius: 5%;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.note-name {
+	text-align: center;
+}
+
+.note-date {
+	padding: 10px;
+}

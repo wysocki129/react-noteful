@@ -2,13 +2,18 @@ import React from 'react';
 import useFormValidation from '../../useFormValidation';
 import useFoldersState from '../../useFoldersState';
 
-const AddNote = () => {
+const AddNote = ({ history }) => {
 	const formState = { name: `` };
 	const { handleChange, handleNoteSubmit, values } = useFormValidation(formState);
 	const { getFoldersArray } = useFoldersState();
+
 	return (
 		<>
-			<form onSubmit={handleNoteSubmit}>
+			<form
+				onSubmit={e => {
+					handleNoteSubmit(e, history);
+				}}
+			>
 				<label>
 					Name:
 					<input
@@ -30,6 +35,9 @@ const AddNote = () => {
 					/>
 				</label>
 				<select name="folderid" value={values.folderid} onChange={handleChange}>
+					<option value={0} label>
+						Pick A Folder
+					</option>
 					{getFoldersArray().map(folder => (
 						<option key={folder.id} value={folder.id}>
 							{folder.name}

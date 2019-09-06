@@ -1,14 +1,16 @@
 import { useContext } from 'react';
 import { NotesStateContext } from './NotesState';
 
-const useFoldersState = () => {
+const useNotesState = () => {
 	const [notesState, setNotesState] = useContext(NotesStateContext);
 	const dbURL = 'https://still-citadel-89591.herokuapp.com/api/notes';
 
 	const noteGetRequest = () => {
-		var getRequestRN = notesState.getRequestNum;
-		getRequestRN++;
-		setNotesState(notesState => ({ ...notesState, getRequestNum: getRequestRN }));
+		fetch(dbURL)
+			.then(res => res.json())
+			.then(allNotes => setNotesState(notesState => ({ ...notesState, notes: allNotes })))
+			.then(() => console.log('Notes Fetch Complete'))
+			.catch(e => console.log(e));
 	};
 
 	function getNotesState() {
@@ -24,12 +26,17 @@ const useFoldersState = () => {
 			return note.id == noteId;
 		});
 
-		console.log(noteObj[0]);
+		// console.log(noteObj[0]);
 		return noteObj[0];
 	}
 
-	function postNewNote(note) {
+	function postNewNote(note, history) {
 		let date = new Date();
+
+		if (isNaN(note.folderid)) {
+			note.folderid = 0;
+		}
+
 		const newNote = {
 			name: note.name,
 			folderid: note.folderid,
@@ -51,10 +58,10 @@ const useFoldersState = () => {
 					throw new Error(response.statusText);
 				}
 
-				noteGetRequest();
-
 				return response.json();
 			})
+			.then(() => noteGetRequest())
+			.then(() => history.push('/'))
 
 			.catch(e => console.log(e));
 	}
@@ -62,20 +69,23 @@ const useFoldersState = () => {
 	function deleteSelectedNote(selectedNote) {
 		const deleteURL = dbURL + '/' + selectedNote;
 
+		let allNotes = getNotesArray();
+		let remNotes = allNotes.filter(note => note.id !== selectedNote);
+		setNotesState(notesState => ({ ...notesState, notes: remNotes }));
+
 		fetch(deleteURL, { method: 'DELETE' })
 			.then(response => {
 				if (!response.ok) {
 					throw new Error(response.statusText);
 				}
-				let allNotes = getNotesArray();
-				let remNotes = allNotes.filter(note => note.id !== selectedNote);
-				setNotesState(notesState => ({ ...notesState, notes: remNotes }));
+				noteGetRequest();
 				return response.json();
 			})
+
 			.catch(Error => console.log(Error));
 	}
 
-	function newNoteAuth(values) {
+	function newNoteAuth(values, history) {
 		let errors = {};
 		if (!values.name) {
 			errors.name = 'Each note must have a name.';
@@ -83,7 +93,7 @@ const useFoldersState = () => {
 		if (Object.keys(errors).length !== 0) {
 			console.log(errors);
 		} else {
-			postNewNote(values);
+			postNewNote(values, history);
 		}
 	}
 
@@ -98,4 +108,4 @@ const useFoldersState = () => {
 	};
 };
 
-export default useFoldersState;
+export default useNotesState;

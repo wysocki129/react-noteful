@@ -1,10 +1,10 @@
 import React from 'react';
-import Note from './Note';
+import { Link } from 'react-router-dom';
 import useNotesState from '../../useNotesState';
-import AddNote from './AddNote';
+import './NoteList.css';
 
 const NoteList = ({ selectedFolder }) => {
-	const { getNotesArray } = useNotesState();
+	const { getNotesArray, deleteSelectedNote } = useNotesState();
 
 	let displayNotes = [];
 
@@ -19,11 +19,19 @@ const NoteList = ({ selectedFolder }) => {
 			<ul>
 				{displayNotes.map(note => (
 					<li key={note.id}>
-						<Note data={note} />
+						<Link to={`/folder/${note.folderid}/note/${note.id}`}>
+							<h3> {note.name} </h3>
+						</Link>
+						<p>{note.modified}</p>
+						<button type="button" onClick={() => deleteSelectedNote(note.id)}>
+							Delete Note
+						</button>
 					</li>
 				))}
 			</ul>
-			<AddNote />
+			<Link to={`/folder/addnote`}>
+				<button>Add Note</button>
+			</Link>
 		</>
 	);
 };

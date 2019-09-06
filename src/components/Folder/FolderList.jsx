@@ -1,7 +1,7 @@
 import React from 'react';
 import Folder from './Folder';
-import AddFolder from './AddFolder';
-import { NavLink } from 'react-router-dom';
+
+import { NavLink, Link } from 'react-router-dom';
 
 import useFoldersState from '../../useFoldersState';
 
@@ -10,12 +10,16 @@ const FolderList = () => {
 
 	return (
 		<>
-			{getFoldersArray().map(folder => (
-				<NavLink key={folder.id} to={`/folder/${folder.id}`}>
-					<Folder name={folder.name} />
-				</NavLink>
-			))}
-			<AddFolder />
+			<ol>
+				{getFoldersArray().map(folder => (
+					<NavLink key={folder.id} to={`/folder/${folder.id}`}>
+						<li>{folder.name}</li>
+					</NavLink>
+				))}
+			</ol>
+			<Link to={`/folder/addfolder`}>
+				<button>Add Folder</button>
+			</Link>
 		</>
 	);
 };

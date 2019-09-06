@@ -7,13 +7,15 @@ import NotePage from './components/Note/NotePage';
 // import HooksTestSuite from './HooksTestSuite';
 import { FoldersStateProvider } from './FoldersState';
 import { NotesStateProvider } from './NotesState';
+import AddFolder from './components/Folder/AddFolder';
+import AddNote from './components/Note/AddNote';
 
 const App = () => {
 	return (
 		<>
-			<FoldersStateProvider>
-				<NotesStateProvider>
-					<Router>
+			<Router>
+				<FoldersStateProvider>
+					<NotesStateProvider>
 						<div className="App">
 							<header className="App__header">
 								<Link to="/">
@@ -57,10 +59,20 @@ const App = () => {
 									</>
 								)}
 							/>
+							<Route
+								path="/folder/addfolder"
+								exact
+								render={({ history }) => <AddFolder history={history} />}
+							/>
+							<Route
+								path="/folder/addnote"
+								exact
+								render={({ history }) => <AddNote history={history} />}
+							/>
 						</div>
-					</Router>
-				</NotesStateProvider>
-			</FoldersStateProvider>
+					</NotesStateProvider>
+				</FoldersStateProvider>
+			</Router>
 		</>
 	);
 };

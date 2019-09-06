@@ -28,9 +28,6 @@ const NotePage = ({ noteId, history }) => {
 					<button type="button" onClick={() => deleteNoteOnPage()}>
 						Delete Note
 					</button>
-					<button type="button" onClick={() => patchSelectedNote()}>
-						Edit Note
-					</button>
 				</div>
 			</main>
 		</>

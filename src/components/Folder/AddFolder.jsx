@@ -1,13 +1,17 @@
 import React from 'react';
 import useFormValidation from '../../useFormValidation';
 
-const AddFolder = () => {
+const AddFolder = ({ history }) => {
 	const formState = { name: `` };
 	const { handleChange, handleFolderSubmit, values } = useFormValidation(formState);
 
 	return (
 		<>
-			<form onSubmit={handleFolderSubmit}>
+			<form
+				onSubmit={e => {
+					handleFolderSubmit(e, history);
+				}}
+			>
 				<label>
 					New Folder
 					<input type="text" name="name" value={values.name} onChange={handleChange} />

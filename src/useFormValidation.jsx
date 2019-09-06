@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useFoldersState from './useFoldersState';
 import useNotesState from './useNotesState';
+import { Route, Redirect } from 'react-router-dom';
 
 function useFormValidation(formState) {
 	const [values, setValues] = useState(formState);
@@ -11,14 +12,14 @@ function useFormValidation(formState) {
 		setValues({ ...values, [event.target.name]: event.target.value });
 	}
 
-	function handleFolderSubmit(event) {
+	function handleFolderSubmit(event, history) {
 		event.preventDefault();
-		newFolderAuth(values);
+		newFolderAuth(values, history);
 	}
 
-	function handleNoteSubmit(event) {
+	function handleNoteSubmit(event, history) {
 		event.preventDefault();
-		newNoteAuth(values);
+		newNoteAuth(values, history);
 	}
 
 	return { handleChange, handleFolderSubmit, handleNoteSubmit, values };

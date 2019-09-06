@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { FoldersStateContext } from './FoldersState';
+import { Redirect } from 'react-router';
 
 const useFoldersState = () => {
 	const [foldersState, setFoldersState] = useContext(FoldersStateContext);
@@ -27,11 +28,11 @@ const useFoldersState = () => {
 		const folderObj = foldersState.folders.filter(folder => {
 			return folder.id === foldersState.selectedFolderId;
 		});
-		console.log(folderObj);
+		// console.log(folderObj);
 		return folderObj[0];
 	}
 
-	function postNewFolder(newFolderName = 'Folder_String') {
+	function postNewFolder(newFolderName = 'Folder_String', history) {
 		const newFolder = { name: `${newFolderName}` };
 		const options = {
 			method: 'POST',
@@ -48,7 +49,10 @@ const useFoldersState = () => {
 				}
 				return response.json();
 			})
-			.then(myJson => addNewFolder())
+			.then(myJson => {
+				addNewFolder();
+				history.push('/');
+			})
 			.catch(e => console.log(e));
 	}
 
@@ -61,7 +65,7 @@ const useFoldersState = () => {
 			.catch(e => console.log(e));
 	}
 
-	function newFolderAuth(values) {
+	function newFolderAuth(values, history) {
 		let errors = {};
 		const isNotUnique = () =>
 			foldersState.folders.filter(folder => folder.name === values.name);
@@ -73,7 +77,7 @@ const useFoldersState = () => {
 		if (Object.keys(errors).length !== 0) {
 			console.log(errors);
 		} else {
-			postNewFolder(values.name);
+			postNewFolder(values.name, history);
 		}
 	}
 
